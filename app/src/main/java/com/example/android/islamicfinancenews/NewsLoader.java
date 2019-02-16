@@ -27,10 +27,10 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
     public List<News> loadInBackground() {
         if (mURL == null) {
             return null;
-       }
+        }
         List<News> listOfNews = null;
         try {
-            URL url = QueryUtils.createUrl();
+            URL url = new URL(mURL);
             String jsonResponse = QueryUtils.makeHttpRequest(url);
             listOfNews = QueryUtils.parseJson(jsonResponse);
         } catch (IOException e) {

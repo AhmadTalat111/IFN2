@@ -1,6 +1,5 @@
 package com.example.android.islamicfinancenews;
 
-import android.net.Uri;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -12,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.ParseException;
@@ -25,42 +23,18 @@ import java.util.Locale;
 
 public class QueryUtils {
 
-    static String createStringUrl() {
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme("http")
-                .encodedAuthority("content.guardianapis.com")
-                .appendPath("search")
-                .appendQueryParameter("order-by", "newest")
-                .appendQueryParameter("show-references", "author")
-                .appendQueryParameter("show-tags", "contributor")
-                .appendQueryParameter("q", "Islamic finance")
-                .appendQueryParameter("api-key", "test");
-        String url = builder.build().toString();
-        return url;
-    }
-
-    static URL createUrl() {
-        String stringUrl = createStringUrl();
-        try {
-            return new URL(stringUrl);
-        } catch (MalformedURLException e) {
-            Log.e("Queryutils", "Error creating URL: ", e);
-            return null;
-        }
-    }
-
     private static String formatDate(String rawDate) {
-            String jsonDatePattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-            SimpleDateFormat jsonFormatter = new SimpleDateFormat(jsonDatePattern, Locale.US);
-            try {
-                Date parsedJsonDate = jsonFormatter.parse(rawDate);
-                String finalDatePattern = "MMM d, yyy";
-                SimpleDateFormat finalDateFormatter = new SimpleDateFormat(finalDatePattern, Locale.US);
-                return finalDateFormatter.format(parsedJsonDate);
-            } catch (ParseException e) {
-                Log.e("QueryUtils", "Error parsing JSON date: ", e);
-                return "";
-            }
+        String jsonDatePattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        SimpleDateFormat jsonFormatter = new SimpleDateFormat(jsonDatePattern, Locale.US);
+        try {
+            Date parsedJsonDate = jsonFormatter.parse(rawDate);
+            String finalDatePattern = "MMM d, yyy";
+            SimpleDateFormat finalDateFormatter = new SimpleDateFormat(finalDatePattern, Locale.US);
+            return finalDateFormatter.format(parsedJsonDate);
+        } catch (ParseException e) {
+            Log.e("QueryUtils", "Error parsing JSON date: ", e);
+            return "";
+        }
     }
 
     static String makeHttpRequest(URL url) throws IOException {
